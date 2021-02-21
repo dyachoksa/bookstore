@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import Book
 
@@ -17,3 +17,8 @@ def index(request):
 class BookListView(ListView):
     model = Book
     context_object_name = "books"
+
+
+class BookDetailView(DetailView):
+    model = Book
+    context_object_name = "book"

@@ -1,9 +1,14 @@
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">{{ book.title }}</h5>
+        <h5 class="card-title">
+            <a href="{{ book.get_absolute_url }}" class="text-decoration-none">{{ book.title }}</a>
+        </h5>
+
         <p class="card-text">
             {{ book.description | truncatechars:60 }}
         </p>
+
+        <a href="{{ book.get_absolute_url }}" class="card-link">See more</a>
     </div>
     <div class="card-footer">
         <small class="text-muted">Added {{ book.created_at | date }}</small>
