@@ -1,4 +1,6 @@
 <div class="card">
+    <img src="{{ book.get_cover_image_url }}" class="card-img-top" alt="{{ book.title }}" />
+
     <div class="card-body">
         <h5 class="card-title">
             <a href="{{ book.get_absolute_url }}" class="text-decoration-none">{{ book.title }}</a>

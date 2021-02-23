@@ -5,7 +5,7 @@ from .models import Book
 
 
 def index(request):
-    books = Book.objects.all().order_by('-created_at')[:3]
+    books = Book.objects.all().order_by('-created_at')[:4]
 
     context = {
         'books': books
