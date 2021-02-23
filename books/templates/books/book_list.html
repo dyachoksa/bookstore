@@ -4,7 +4,13 @@
 
 {% block content %}
     <div>
-        <h2 class="text-secondary">Our books</h2>
+        <h2 class="text-secondary">
+            {% if q %}
+                Search results for: <em>{{ q }}</em>
+            {% else %}
+                Our books
+            {% endif %}
+        </h2>
 
         <div class="mt-2 row row-cols-1 row-cols-md-3 g-4">
             {% for book in books %}
