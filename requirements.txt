@@ -1,2 +1,5 @@
 Django
 Pillow
+
+django-allauth
+django-crispy-forms
