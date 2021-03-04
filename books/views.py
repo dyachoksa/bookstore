@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 
+from users.models import FavoriteBook
 from .models import Book
 
 
@@ -12,6 +15,19 @@ def index(request):
     }
 
     return render(request, "books/index.html", context=context)
+
+
+@login_required
+def bookmark(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    try:
+        favorite_book = FavoriteBook.objects.get(user=request.user, book=book)
+        favorite_book.delete()
+    except FavoriteBook.DoesNotExist:
+        FavoriteBook.objects.create(user=request.user, book=book)
+
+    return redirect(reverse("books:detail", kwargs={"pk": book.id}))
 
 
 class BookListView(ListView):
@@ -38,3 +54,12 @@ class BookListView(ListView):
 class BookDetailView(DetailView):
     model = Book
     context_object_name = "book"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['in_favourites'] = False
+        if self.request.user.is_authenticated:
+            context['in_favourites'] = FavoriteBook.objects.filter(user=self.request.user, book=self.object).exists()
+
+        return context

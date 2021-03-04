@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-3">
                 <picture>
-                    <img class="img-thumbnail" src="{{ profile.avatar.url }}" alt="{{ current_user.username }}" />
+                    <img class="img-thumbnail" src="{{ profile.avatar.url }}" alt="{{ current_user.username }}"/>
                 </picture>
             </div>
 
@@ -39,6 +39,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="mt-5 d-flex justify-content-between">
+            <h3>Favorite Books</h3>
+            <div></div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+            {% for favorite_book in favorite_books %}
+                <div class="col">
+                    <a href="{{ favorite_book.book.get_absolute_url }}" class="fw-bold text-decoration-none">
+                        {{ favorite_book.book.title }}
+                    </a>
+                    <p class="text-secondary">{{ favorite_book.book.author.name }}</p>
+                </div>
+            {% empty %}
+                <div class="col">
+                    <p class="text-secondary">
+                        List is empty. How about to start reading <a href="{% url 'books:list' %}">something</a>?
+                    </p>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

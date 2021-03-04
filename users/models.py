@@ -28,3 +28,10 @@ class UserProfile(models.Model):
 
     def __repr__(self):
         return f"<UserProfile user_id={self.user_id}>"
+
+
+class FavoriteBook(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorite_books")
+    book = models.ForeignKey("books.Book", on_delete=models.CASCADE, related_name="liked_by")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

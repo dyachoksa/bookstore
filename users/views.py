@@ -17,6 +17,11 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         user_profile, _ = UserProfile.objects.get_or_create(user=self.request.user)
         context['profile'] = user_profile
 
+        context['favorite_books'] = user_profile.user.favorite_books\
+            .order_by('book__title')\
+            .select_related("book")\
+            .all()
+
         return context
 
 
