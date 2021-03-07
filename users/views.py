@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, ListView
+
+from store.models import ShoppingCart, CartStatus
 
 from .forms import UserProfileForm
 from .models import UserProfile
@@ -32,3 +34,12 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user.profile
+
+
+class OrdersListView(LoginRequiredMixin, ListView):
+    model = ShoppingCart
+    context_object_name = "orders"
+    template_name = "users/orders.html"
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user, status=CartStatus.COMPLETED)

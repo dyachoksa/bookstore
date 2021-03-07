@@ -1,3 +1,4 @@
+{% load store_tags %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
 
     <title>{% block title %}Home{% endblock %} - Bookstore</title>
 
@@ -41,6 +43,14 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
 
+                {% has_open_shopping_cart as show_cart_icon %}
+                {% if show_cart_icon %}
+                    {% get_shopping_cart as cart %}
+                    <a href="{{ cart.get_absolute_url }}" class="ms-4 btn btn-light fw-bold">
+                        <i class="bi bi-cart"></i> <span class="badge bg-success">{{ cart.items_count }}</span>
+                    </a>
+                {% endif %}
+
                 {% if user.is_authenticated %}
                     <div class="ms-4 dropdown">
                         <button class="btn btn-light dropdown-toggle" type="button" id="accountDropdownBtn"
@@ -51,6 +61,8 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdownBtn">
                             <li><a class="dropdown-item" href="{% url 'users:profile' %}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'users:my_orders' %}">My Orders</a></li>
+
                             {% if user.is_staff or user.is_superuser %}
                                 <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin portal</a></li>
                             {% endif %}

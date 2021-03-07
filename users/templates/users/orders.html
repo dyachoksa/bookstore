@@ -1,0 +1,46 @@
+{% extends "books/base.html" %}
+
+{% block title %}My Order{% endblock %}
+
+{% block content %}
+    <div>
+        <h2 class="text-secondary">My Orders</h2>
+
+        <div class="mt-4 row">
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Books</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <ul class="list-unstyled">
+                                    {% for book in order.books.all %}
+                                        <li>
+                                            <a href="{{ book.get_absolute_url }}" class="text-decoration-none">
+                                                {{ book.title }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td class="fw-bold">{{ order.total }}$</td>
+                            <td>
+                                {{ order.created_at | date }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

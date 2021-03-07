@@ -14,7 +14,7 @@ class BookItemAdmin(admin.ModelAdmin):
 class ShoppingCartAdmin(admin.ModelAdmin):
     date_hierarchy = "created_at"
 
-    list_display = ["user", "status", "created_at", "updated_at"]
+    list_display = ["user", "status", "total", "created_at", "updated_at"]
     list_display_links = ["user", "status"]
     list_filter = ["status", "created_at"]
     list_select_related = ["user"]

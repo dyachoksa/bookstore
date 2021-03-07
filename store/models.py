@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class BookItem(models.Model):
@@ -48,3 +49,10 @@ class ShoppingCart(models.Model):
     @property
     def total(self):
         return round(self.books.aggregate(total=models.Sum("store_item__price"))["total"], 2)
+
+    @property
+    def items_count(self):
+        return self.books.count()
+
+    def get_absolute_url(self):
+        return reverse("store:detail", kwargs={"pk": self.pk})

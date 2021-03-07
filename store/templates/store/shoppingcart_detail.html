@@ -15,6 +15,7 @@
                         <th scope="col">Title</th>
                         <th scope="col">Author</th>
                         <th scope="col">Price</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,14 @@
                             </td>
                             <td>{{ book.author.name }}</td>
                             <td class="fw-bold">{{ book.store_item.price }}$</td>
+                            <td>
+                                <a href="{% url 'store:remove' book.id %}"
+                                   class="btn btn-outline-danger"
+                                   onclick="return confirm('Do you want to remove this item from cart?')"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -45,20 +54,22 @@
                         <h5 class="card-title">Total: {{ shopping_cart.total }}$</h5>
                         <h6 class="card-subtitle mt-2 text-muted">Sub-total: {{ shopping_cart.total }}$</h6>
 
-                        <form class="mt-4">
+                        <form class="mt-4" action="{% url 'store:purchase' shopping_cart.pk %}" method="post">
+                            {% csrf_token %}
+
                             <div class="mb-3">
                                 <input type="text" name="card_number" placeholder="Card number" class="form-control"
-                                       aria-label="Card number"/>
+                                       aria-label="Card number" required />
                             </div>
 
                             <div class="row">
                                 <div class="col">
                                     <input type="text" name="card_exp" class="form-control" placeholder="Exp"
-                                           aria-label=Expiration">
+                                           aria-label=Expiration" required />
                                 </div>
                                 <div class="col">
                                     <input type="text" name="card_cvv" class="form-control" placeholder="CVV"
-                                           aria-label="CVV">
+                                           aria-label="CVV" required />
                                 </div>
                             </div>
 
