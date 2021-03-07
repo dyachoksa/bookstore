@@ -1,0 +1,72 @@
+{% extends "books/base.html" %}
+
+{% block title %}Shopping cart{% endblock %}
+
+{% block content %}
+    <div>
+        <h2 class="text-secondary">Shopping Cart Details</h2>
+
+        <div class="mt-4 row">
+            <div class="col-12 col-md-8 col-lg-9">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for book in shopping_cart.books.all %}
+                        <tr class="align-middle">
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <img src="{{ book.get_cover_image_url }}"
+                                     class="img-fluid"
+                                     style="max-width: 100px;"
+                                     alt="{{ book.title }}"/>
+
+                                <a href="{{ book.get_absolute_url }}"
+                                   class="text-decoration-none">
+                                    {{ book.title }}
+                                </a>
+                            </td>
+                            <td>{{ book.author.name }}</td>
+                            <td class="fw-bold">{{ book.store_item.price }}$</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total: {{ shopping_cart.total }}$</h5>
+                        <h6 class="card-subtitle mt-2 text-muted">Sub-total: {{ shopping_cart.total }}$</h6>
+
+                        <form class="mt-4">
+                            <div class="mb-3">
+                                <input type="text" name="card_number" placeholder="Card number" class="form-control"
+                                       aria-label="Card number"/>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" name="card_exp" class="form-control" placeholder="Exp"
+                                           aria-label=Expiration">
+                                </div>
+                                <div class="col">
+                                    <input type="text" name="card_cvv" class="form-control" placeholder="CVV"
+                                           aria-label="CVV">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="mt-4 btn btn-success w-100">Purchase</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

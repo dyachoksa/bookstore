@@ -43,6 +43,14 @@ class Book(models.Model):
     def __repr__(self):
         return f"<Book id={self.pk} title={self.title}>"
 
+    @property
+    def in_stock(self):
+        return self.store_item.in_stock
+
+    @property
+    def can_sell(self):
+        return self.store_item is not None
+
     def get_absolute_url(self):
         return reverse('books:detail', kwargs={"pk": self.pk})
 
