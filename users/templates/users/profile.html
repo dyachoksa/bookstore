@@ -35,18 +35,18 @@
                 <div class="mt-4">
                     <div class="fw-bold">A couple of words about me:</div>
                     <div class="mt-1">
-                        {{ profile.bio | default:"-" }}
+                        {{ profile.bio | default:"-" | linebreaks }}
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="mt-5 d-flex justify-content-between">
-            <h3>Favorite Books</h3>
+            <h3 class="text-secondary">Favorite Books</h3>
             <div></div>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+        <div class="mt-2 row row-cols-1 row-cols-md-2 row-cols-lg-3">
             {% for favorite_book in favorite_books %}
                 <div class="col">
                     <a href="{{ favorite_book.book.get_absolute_url }}" class="fw-bold text-decoration-none">
@@ -61,6 +61,34 @@
                     </p>
                 </div>
             {% endfor %}
+        </div>
+
+        <div class="mt-3">
+            <div class="d-flex justify-content-between">
+                <h3 class="text-secondary">My reviews</h3>
+                <div></div>
+            </div>
+
+            <div class="mt-2 row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                {% for review in my_reviews %}
+                    <div class="col">
+                        <a href="{{ review.book.get_absolute_url }}" class="fw-bold text-decoration-none">
+                            {{ review.book.title }}
+                        </a>
+                        <p class="text-secondary">
+                            {{ review.created_at|date:"D d M Y" }} {{ review.created_at|time:"H:i" }}
+                        </p>
+
+                        <p>{{ review.content | truncatechars:150 }}</p>
+                    </div>
+                {% empty %}
+                    <div class="col">
+                        <p class="text-secondary">
+                            List is empty. How about to start reviewing <a href="{% url 'books:list' %}">something</a>?
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

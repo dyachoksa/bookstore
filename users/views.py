@@ -24,6 +24,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             .select_related("book")\
             .all()
 
+        context['my_reviews'] = user_profile.user.reviews.order_by("-created_at").all()
+
         return context
 
 
