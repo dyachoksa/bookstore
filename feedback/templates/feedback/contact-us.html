@@ -1,0 +1,69 @@
+{% extends "books/base.html" %}
+{% load i18n %}
+{% load crispy_forms_filters %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Contact Us</h1>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut dolorum ea enim eos est et, facilis fugit
+                ipsa ipsam ipsum labore possimus quas repudiandae sed sit suscipit ullam unde voluptate.
+                A ab dolorem eos, exercitationem harum, ipsa, iste iure iusto maiores molestias neque nobis porro
+                quaerat quod quos repellat sit ullam? Deleniti eos inventore ipsum, laborum nam saepe sunt voluptatum!
+            </p>
+            <p>
+                Accusantium ad autem eius odio temporibus tenetur voluptas? Alias dicta illo, ipsum itaque
+                necessitatibus odit quam suscipit ut. Consectetur debitis dicta facere facilis libero nesciunt
+                perspiciatis quibusdam vero. Maiores, perspiciatis.
+                Ex laborum ratione velit. Ab adipisci architecto at, consequuntur deserunt dolores enim in ipsam iste
+                molestias nesciunt non obcaecati omnis placeat quae quaerat qui quisquam repellendus sapiente sit ut
+                vel!
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12 col-md-7 col-lg-8">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {{ form | crispy }}
+
+                        <button type="submit" class="mt-3 btn btn-primary">{% trans "Send message" %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-5 col-lg-4">
+            <div class="bg-light p-4">
+                <dl class="row">
+                    <dt class="col-4">Phone</dt>
+                    <dd class="col-8">
+                        <a href="tel:+123456789">+123456789</a>
+                    </dd>
+
+                    <dt class="col-4">Email</dt>
+                    <dd class="col-8">
+                        <a href="mailto:support@example.com">support@example.com</a>
+                    </dd>
+
+                    <dt class="col-4">Location</dt>
+                    <dd class="col-8">
+                        <p class="mb-1">42575 Gl. Rye, Hovedstaden, Denmark</p>
+                        <p>Agnetevej str, 42</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+{% endblock %}

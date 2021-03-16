@@ -1,0 +1,7 @@
+You have a new contact form message:
+
+Name: {{ name }}
+Email: {{ email }}
+Subject: {{ subject }}
+---
+{{ message }}

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'books.apps.BooksConfig',
     'users.apps.UsersConfig',
     'store.apps.StoreConfig',
+    'feedback.apps.FeedbackConfig',
 ]
 
 MIDDLEWARE = [
@@ -150,6 +151,27 @@ MEDIA_ROOT = BASE_DIR / 'public' / 'media'
 # Mail settings
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# EMAIL_HOST = 'smtp.mailtrap.io'
+
+# EMAIL_HOST_USER = ''
+
+# EMAIL_HOST_PASSWORD = ''
+
+# EMAIL_PORT = '2525'
+
+# EMAIL_USE_TLS = True
+
+# EMAIL_USE_SSL = False
+
+SERVER_EMAIL = 'no-reply@example.com'
+
+MANAGERS = [
+    ('Sergey', 'sergey@examle.com'),
+    ('Support Team', 'support@example.com'),
+]
 
 
 # Other settings
