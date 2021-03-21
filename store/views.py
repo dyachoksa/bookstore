@@ -84,6 +84,8 @@ def purchase(request, pk):
         BookItem.objects \
             .filter(book_id__in=shopping_cart.books.all()) \
             .update(quantity=F("quantity") - 1)
+        # Generated SQL query:
+        # UPDATE store_bookitem SET quantity = quantity - 1 WHERE book_id IN [1, 3,4];
 
         return redirect(reverse("store:purchase_success", kwargs={"pk": shopping_cart.pk}))
 
