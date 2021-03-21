@@ -1,0 +1,37 @@
+{% extends "books/base.html" %}
+
+{% block title %}Authors{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Authors</h1>
+        </div>
+    </div>
+
+    <div class="mt-4 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for author in authors %}
+            <div class="col d-flex">
+                <div class="row rounded bg-light g-2 px-2 pb-2">
+                    <div class="col-12 col-md-4">
+                        <a href="{{ author.get_absolute_url }}">
+                            <picture>
+                                <img class="img-fluid" src="{{ author.get_photo_url }}" alt="{{ author.name }}" />
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <h5>
+                            <a class="text-decoration-none" href="{{ author.get_absolute_url }}">{{ author.name }}</a>
+                        </h5>
+                        <p>{{ author.country }}, {{ author.date_of_birth }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <p class="text-muted">No authors. Please visit later.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

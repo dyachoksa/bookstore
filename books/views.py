@@ -10,7 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from users.models import FavoriteBook
 
 from .forms import ReviewCreateForm
-from .models import Book, Review
+from .models import Book, Review, Author
 
 
 def index(request):
@@ -84,6 +84,16 @@ class BookDetailView(DetailView):
             context['in_favourites'] = FavoriteBook.objects.filter(user=self.request.user, book=self.object).exists()
 
         return context
+
+
+class AuthorListView(ListView):
+    model = Author
+    context_object_name = "authors"
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+    context_object_name = "author"
 
 
 class ReviewCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):

@@ -20,6 +20,18 @@ class Author(models.Model):
     def __repr__(self):
         return f"<Author id={self.pk} name={self.name}>"
 
+    def get_books(self):
+        return self.books.order_by('-year').all()
+
+    def get_absolute_url(self):
+        return reverse('books:author-detail', kwargs={"pk": self.pk})
+
+    def get_photo_url(self):
+        if not self.photo:
+            return settings.MEDIA_URL + 'no-avatar.png'
+
+        return self.photo.url
+
 
 def get_image_path(instance: "Book", filename: str):
     _, ext = os.path.splitext(filename)
