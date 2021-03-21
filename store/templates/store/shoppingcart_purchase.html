@@ -1,0 +1,49 @@
+{% extends "books/base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %}Purchase{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Purchase</h1>
+        </div>
+    </div>
+
+    <form action="{% url 'store:purchase' shopping_cart.pk %}" method="post">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-9">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <h3>Shipping address</h3>
+
+                        <p class="text-secondary">
+                            <span class="text-danger">*</span>
+                            All fields required
+                        </p>
+
+                        {{ shipping_form | crispy }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total: {{ shopping_cart.total }}$</h5>
+                        <h6 class="card-subtitle mt-2 text-muted">Sub-total: {{ shopping_cart.total }}$</h6>
+
+                        <div class="mt-4">
+                            {{ card_form | crispy }}
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="mt-4 btn btn-success w-100">Purchase</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

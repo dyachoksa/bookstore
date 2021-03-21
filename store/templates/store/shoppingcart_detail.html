@@ -54,27 +54,10 @@
                         <h5 class="card-title">Total: {{ shopping_cart.total }}$</h5>
                         <h6 class="card-subtitle mt-2 text-muted">Sub-total: {{ shopping_cart.total }}$</h6>
 
-                        <form class="mt-4" action="{% url 'store:purchase' shopping_cart.pk %}" method="post">
-                            {% csrf_token %}
-
-                            <div class="mb-3">
-                                <input type="text" name="card_number" placeholder="Card number" class="form-control"
-                                       aria-label="Card number" required />
-                            </div>
-
-                            <div class="row">
-                                <div class="col">
-                                    <input type="text" name="card_exp" class="form-control" placeholder="Exp"
-                                           aria-label=Expiration" required />
-                                </div>
-                                <div class="col">
-                                    <input type="text" name="card_cvv" class="form-control" placeholder="CVV"
-                                           aria-label="CVV" required />
-                                </div>
-                            </div>
-
-                            <button type="submit" class="mt-4 btn btn-success w-100">Purchase</button>
-                        </form>
+                        <div class="mt-4">
+                            <a href="{% url 'store:purchase' shopping_cart.pk %}"
+                               class="mt-4 btn btn-success w-100">Continue</a>
+                        </div>
                     </div>
                 </div>
             </div>

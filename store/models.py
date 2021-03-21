@@ -21,6 +21,27 @@ class BookItem(models.Model):
         return f"<BookItem book_id={self.book_id} price={self.price} quantity={self.quantity}>"
 
 
+class ShippingAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="shipping_addresses")
+    country = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    address_line = models.CharField(verbose_name="address", max_length=250)
+    zip_code = models.CharField(max_length=12)
+    is_default = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "shipping address"
+        verbose_name_plural = "shipping addresses"
+
+    def __str__(self):
+        return "{zip} {city}, {country}, {address}".format(
+            zip=self.zip_code, city=self.city, country=self.country, address=self.address_line
+        )
+
+    def __repr__(self):
+        return f"<ShippingAddress id={self.pk} user_id={self.user_id} is_default={self.is_default}>"
+
+
 class CartStatus(models.TextChoices):
     NEW = "new", "New"
     PENDING = "pending", "Pending"
@@ -30,6 +51,7 @@ class CartStatus(models.TextChoices):
 
 class ShoppingCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="shopping_carts")
+    shipping = models.ForeignKey(ShippingAddress, on_delete=models.SET_NULL, blank=True, null=True)
     books = models.ManyToManyField("books.Book", related_name="purchases")
     status = models.CharField(max_length=12, choices=CartStatus.choices, default=CartStatus.NEW)
     created_at = models.DateTimeField(auto_now_add=True)

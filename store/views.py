@@ -3,13 +3,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import F
 from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, TemplateView
 
 from books.models import Book
 
+from .forms import CardForm, ShippingAddressForm
 from .models import ShoppingCart, CartStatus, BookItem
 
 
@@ -49,25 +49,54 @@ def remove_from_cart(request, book_id):
 
 
 @login_required
-@require_POST
 def purchase(request, pk):
     shopping_cart = get_object_or_404(ShoppingCart, pk=pk)
 
     if shopping_cart.user.pk != request.user.pk:
         return HttpResponseForbidden()
 
-    # Do actual card charge here
-    # using request.POST data
-    # ...
+    if request.method == "POST":
+        card_form = CardForm(request.POST, prefix="card")
+        shipping_form = ShippingAddressForm(request.POST, prefix="shipping")
 
-    shopping_cart.status = CartStatus.COMPLETED
-    shopping_cart.save()
+        if not card_form.is_valid() or not shipping_form.is_valid():
+            context = {
+                "card_form": card_form,
+                "shipping_form": shipping_form,
+                "shopping_cart": shopping_cart
+            }
 
-    BookItem.objects \
-        .filter(book_id__in=shopping_cart.books.all()) \
-        .update(quantity=F("quantity") - 1)
+            return render(request, "store/shoppingcart_purchase.html", context=context)
 
-    return redirect(reverse("store:purchase_success", kwargs={"pk": shopping_cart.pk}))
+        # Do actual card charge here
+        # using request.POST data or forms
+        # ...
+        card_form.charge()
+
+        shipping_address = shipping_form.save(commit=False)
+        shipping_address.user = request.user
+        shipping_address.save()
+
+        shopping_cart.shipping = shipping_address
+        shopping_cart.status = CartStatus.COMPLETED
+        shopping_cart.save()
+
+        BookItem.objects \
+            .filter(book_id__in=shopping_cart.books.all()) \
+            .update(quantity=F("quantity") - 1)
+
+        return redirect(reverse("store:purchase_success", kwargs={"pk": shopping_cart.pk}))
+
+    card_form = CardForm(prefix="card")
+    shipping_form = ShippingAddressForm(prefix="shipping")
+
+    context = {
+        "card_form": card_form,
+        "shipping_form": shipping_form,
+        "shopping_cart": shopping_cart
+    }
+
+    return render(request, "store/shoppingcart_purchase.html", context=context)
 
 
 class ShoppingCartDetailView(LoginRequiredMixin, DetailView):

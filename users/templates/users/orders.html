@@ -13,6 +13,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Books</th>
+                        <th scope="col">Shipping Address</th>
                         <th scope="col">Total</th>
                         <th scope="col">Date</th>
                     </tr>
@@ -31,6 +32,14 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
+                            </td>
+                            <td>
+                                {% if order.shipping %}
+                                    <p class="mb-0">{{ order.shipping.zip_code }} {{ order.shipping.city }}, {{ order.shipping.country }}</p>
+                                    <p>{{ order.shipping.address_line }}</p>
+                                {% else %}
+                                    <span>-</span>
+                                {% endif %}
                             </td>
                             <td class="fw-bold">{{ order.total }}$</td>
                             <td>
