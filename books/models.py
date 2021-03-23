@@ -20,6 +20,10 @@ class Author(models.Model):
     def __repr__(self):
         return f"<Author id={self.pk} name={self.name}>"
 
+    @property
+    def books_count(self):
+        return self.books.count()
+
     def get_books(self):
         return self.books.order_by('-year').all()
 

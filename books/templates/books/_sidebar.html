@@ -1,0 +1,13 @@
+<div>
+    <h4>Authors:</h4>
+
+    <div class="list-group list-group-flush">
+        {% for author in authors %}
+            <a href="{{ author.get_absolute_url }}"
+               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                {{ author.name }}
+                <span class="badge bg-primary rounded-pill">{{ author.books_count }}</span>
+            </a>
+        {% endfor %}
+    </div>
+</div>

@@ -5,58 +5,68 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12 col-md-4 col-lg-3">
-            {% if book.can_sell %}
-                <div class="mb-4">
-                    {% if book.in_stock %}
-                        <a href="{% url 'store:add' book.pk %}" class="btn btn-success w-100">
-                            Buy for {{ book.store_item.price }}$
-                        </a>
-                    {% else %}
-                        <button class="btn btn-secondary w-100" disabled>Sold out</button>
-                    {% endif %}
-                </div>
-            {% endif %}
-
-            <figure>
-                <img src="{{ book.get_cover_image_url }}" alt="{{ book.title }}" class="img-fluid"/>
-            </figure>
-        </div>
-
         <div class="col-12 col-md-8 col-lg-9">
-            <div class="d-flex justify-content-between">
-                <h2 class="{{ book.avg_rating | rating_class }}">{{ book.title }}</h2>
-
-                <div>
-                    {% if user.is_authenticated %}
-                        {% if in_favourites %}
-                            <a href="{% url 'books:bookmark' book.pk %}" class="btn btn-outline-warning">
-                                Remove from favourites
-                            </a>
-                        {% else %}
-                            <a href="{% url 'books:bookmark' book.pk %}" class="btn btn-outline-info">
-                                Add to favourites
-                            </a>
-                        {% endif %}
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-3">
+                    {% if book.can_sell %}
+                        <div class="mb-4">
+                            {% if book.in_stock %}
+                                <a href="{% url 'store:add' book.pk %}" class="btn btn-success w-100">
+                                    Buy for {{ book.store_item.price }}$
+                                </a>
+                            {% else %}
+                                <button class="btn btn-secondary w-100" disabled>Sold out</button>
+                            {% endif %}
+                        </div>
                     {% endif %}
+
+                    <figure>
+                        <img src="{{ book.get_cover_image_url }}" alt="{{ book.title }}" class="img-fluid"/>
+                    </figure>
+                </div>
+
+                <div class="col-12 col-md-8 col-lg-9">
+                    <div class="d-flex justify-content-between">
+                        <h2 class="{{ book.avg_rating | rating_class }}">{{ book.title }}</h2>
+
+                        <div>
+                            {% if user.is_authenticated %}
+                                {% if in_favourites %}
+                                    <a href="{% url 'books:bookmark' book.pk %}" class="btn btn-outline-warning">
+                                        Remove from favourites
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'books:bookmark' book.pk %}" class="btn btn-outline-info">
+                                        Add to favourites
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <dl class="mt-2 row">
+                        <dt class="col-sm-3 col-md-2">Author</dt>
+                        <dd class="col-sm-9 col-md-10">
+                            <a class="text-decoration-none"
+                               href="{{ book.author.get_absolute_url }}">{{ book.author.name }}</a>
+                        </dd>
+
+                        <dt class="col-sm-3 col-md-2">Year</dt>
+                        <dd class="col-sm-9 col-md-10">{{ book.year }}</dd>
+
+                        <dt class="col-sm-3 col-md-2">User rating</dt>
+                        <dd class="col-sm-9 col-md-10">{{ book.avg_rating }} / 10</dd>
+                    </dl>
+
+                    <div class="mt-2">
+                        {{ book.description | linebreaks }}
+                    </div>
                 </div>
             </div>
-
-            <dl class="mt-2 row">
-                <dt class="col-sm-3 col-md-2">Author</dt>
-                <dd class="col-sm-9 col-md-10">
-                    <a class="text-decoration-none" href="{{ book.author.get_absolute_url }}">{{ book.author.name }}</a>
-                </dd>
-
-                <dt class="col-sm-3 col-md-2">Year</dt>
-                <dd class="col-sm-9 col-md-10">{{ book.year }}</dd>
-
-                <dt class="col-sm-3 col-md-2">User rating</dt>
-                <dd class="col-sm-9 col-md-10">{{ book.avg_rating }} / 10</dd>
-            </dl>
-
-            <div class="mt-2">
-                {{ book.description | linebreaks }}
+        </div>
+        <div class="col-12 col-md-4 col-lg-3">
+            <div class="ms-4">
+                {% render_sidebar %}
             </div>
         </div>
     </div>

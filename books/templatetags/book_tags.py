@@ -1,5 +1,8 @@
 from django import template
 
+from ..models import Author
+
+
 register = template.Library()
 
 
@@ -13,3 +16,15 @@ def rating_class(rating):
         return "text-secondary"
 
     return "text-danger"
+
+
+@register.simple_tag()
+def get_authors():
+    return Author.objects.all().order_by('name')
+
+
+@register.inclusion_tag("books/_sidebar.html")
+def render_sidebar():
+    return {
+        "authors": get_authors()
+    }

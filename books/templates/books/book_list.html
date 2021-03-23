@@ -1,23 +1,34 @@
 {% extends 'books/base.html' %}
+{% load book_tags %}
 
 {% block title %}Books{% endblock %}
 
 {% block content %}
-    <div>
-        <h2 class="text-secondary">
-            {% if q %}
-                Search results for: <em>{{ q }}</em>
-            {% else %}
-                Our books
-            {% endif %}
-        </h2>
+    <div class="row">
+        <div class="col">
+            <h1>
+                {% if q %}
+                    Search results for: <em>{{ q }}</em>
+                {% else %}
+                    Our books
+                {% endif %}
+            </h1>
+        </div>
+    </div>
 
-        <div class="mt-2 row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-            {% for book in books %}
-                <div class="col">
-                    {% include 'books/_book.html' %}
-                </div>
-            {% endfor %}
+    <div class="mt-4 row">
+        <div class="col-12 col-md-4 col-lg-3">
+            {% render_sidebar %}
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for book in books %}
+                    <div class="col">
+                        {% include 'books/_book.html' %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
