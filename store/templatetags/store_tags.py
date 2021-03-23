@@ -35,3 +35,11 @@ def get_shopping_cart(context) -> ShoppingCart:
         .filter(user=request.user, status=CartStatus.NEW) \
         .order_by("-created_at") \
         .get()
+
+
+@register.inclusion_tag("store/shoppingcart_dropdown.html", takes_context=True)
+def render_shopping_cart_list(context, shopping_cart: ShoppingCart):
+    return {
+        "shopping_cart": shopping_cart,
+        "items": shopping_cart.get_items()
+    }

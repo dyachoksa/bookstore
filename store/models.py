@@ -73,8 +73,16 @@ class ShoppingCart(models.Model):
         return round(self.books.aggregate(total=models.Sum("store_item__price"))["total"], 2)
 
     @property
+    def sub_total(self):
+        # todo: add discount here
+        return round(self.books.aggregate(total=models.Sum("store_item__price"))["total"], 2)
+
+    @property
     def items_count(self):
         return self.books.count()
+
+    def get_items(self):
+        return self.books.all()
 
     def get_absolute_url(self):
         return reverse("store:detail", kwargs={"pk": self.pk})
