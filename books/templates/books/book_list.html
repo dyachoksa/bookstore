@@ -16,6 +16,32 @@
         </div>
     </div>
 
+    <div class="row mt-2">
+        <div class="col">
+            <form class="row gy-2 gx-3 align-items-center">
+                <div class="col-auto">
+                    <h4>Filter:</h4>
+                </div>
+                <div class="col-auto">
+                    <label class="visually-hidden" for="autoSizingSelect">Year</label>
+                    <select name="by_year" class="form-select" id="autoSizingSelect">
+                        <option selected>By year</option>
+                        {% for year in years %}
+                            <option value="{{ year }}" {% if year == filter_by_year %} selected {% endif %}>{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-auto"></div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    {% if filter_by_year %}
+                        <a href="{% url 'books:list' %}" class="btn btn-outline-secondary">Clear</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="mt-4 row">
         <div class="col-12 col-md-4 col-lg-3">
             {% render_sidebar %}

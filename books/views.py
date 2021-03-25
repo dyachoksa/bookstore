@@ -62,12 +62,19 @@ class BookListView(ListView):
         if q:
             qs = qs.filter(title__icontains=q)
 
+        filter_by_year = self.request.GET.get('by_year')
+        if filter_by_year:
+            qs = qs.filter(year=filter_by_year)
+
         return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
 
         context['q'] = self.request.GET.get('q')
+        context['filter_by_year'] = int(self.request.GET.get('by_year', 0))
+
+        context['years'] = sorted(set(Book.objects.values_list('year', flat=True)), reverse=True)
 
         return context
 
