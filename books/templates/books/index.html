@@ -23,7 +23,8 @@
                         </a>
                         <div class="carousel-caption d-none d-md-block bg-dark">
                             <h5>
-                                <a href="{{ book.get_absolute_url }}" class="text-decoration-none text-white">{{ book.title }}</a>
+                                <a href="{{ book.get_absolute_url }}"
+                                   class="text-decoration-none text-white">{{ book.title }}</a>
                             </h5>
                             <p>{{ book.description | truncatechars_html:60 }}</p>
                         </div>
@@ -54,6 +55,62 @@
             {% for book in books %}
                 <div class="col">
                     {% include 'books/_book.html' %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12 col-md-7 col-lg-8 pe-4">
+            <h2 class="text-secondary">Latest reviews</h2>
+
+            {% for review in latest_reviews %}
+                <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <div class="fs-2 fw-bolder">{{ forloop.counter }}.</div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>
+                            <a href="{{ review.book.get_absolute_url }}" class="text-dark">
+                                {{ review.book.title }}
+                            </a>
+                        </h5>
+                        <p class="mb-0">
+                            <strong>{{ review.user.get_full_name | default:review.user.username }}</strong>
+                            on
+                            {{ review.created_at|date:"D d M Y" }} {{ review.created_at|time:"H:i" }}
+                        </p>
+
+                        <div>
+                            {{ review.content | truncatewords_html:25 }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="col-12 col-md-5 col-lg-4">
+            <h2 class="text-secondary">Most popular</h2>
+
+            {% for book in most_popular_books %}
+                <div class="d-flex mb-3">
+                    <div class="flex-shrink-0">
+                        <div class="fs-3 fw-bolder">{{ forloop.counter }}.</div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5>
+                            <a href="{{ book.get_absolute_url }}" class="text-dark">
+                                {{ book.title }}
+                            </a>
+                        </h5>
+                        <p class="mb-0">
+                            <strong>{{ book.author.name }}</strong>, {{ book.year }}
+                        </p>
+                    </div>
+
+                    <div class="ms-3 text-nowrap fs-4 fw-bold text-info">
+                        {{ book.rating|default_if_none:1 }}
+                    </div>
                 </div>
             {% endfor %}
         </div>

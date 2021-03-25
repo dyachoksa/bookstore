@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Avg
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -16,10 +17,16 @@ from .models import Book, Review, Author
 def index(request):
     books = Book.objects.all().order_by('-created_at')[:4]
     featured_books = Book.objects.filter(is_featured=True).order_by('-created_at')
+    latest_reviews = Review.objects.select_related('user', 'book').order_by('-created_at')[:5]
+    most_popular_books = Book.objects.annotate(rating=Avg('reviews__rating'))\
+                             .filter(rating__gte=1)\
+                             .order_by('-rating')[:5]
 
     context = {
         'books': books,
         'featured_books': featured_books,
+        'latest_reviews': latest_reviews,
+        'most_popular_books': most_popular_books,
     }
 
     return render(request, "books/index.html", context=context)
