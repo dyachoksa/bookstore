@@ -17,8 +17,8 @@ class BookAdmin(admin.ModelAdmin):
 
     readonly_fields = ['created_at']
 
-    list_display = ['title', 'year', 'author', 'created_at']
-    list_filter = ['created_at', 'year', 'author']
+    list_display = ['title', 'year', 'author', 'is_featured', 'created_at']
+    list_filter = ['is_featured', 'created_at', 'year', 'author']
     list_select_related = ['author']
 
 

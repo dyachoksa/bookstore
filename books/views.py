@@ -15,9 +15,11 @@ from .models import Book, Review, Author
 
 def index(request):
     books = Book.objects.all().order_by('-created_at')[:4]
+    featured_books = Book.objects.filter(is_featured=True).order_by('-created_at')
 
     context = {
-        'books': books
+        'books': books,
+        'featured_books': featured_books,
     }
 
     return render(request, "books/index.html", context=context)

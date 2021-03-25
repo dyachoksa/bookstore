@@ -3,9 +3,49 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <div class="py-5 px-4 border text-center text-dark bg-light rounded shadow-sm">
-        <h1>Welcome to the Book Store!</h1>
-    </div>
+    {% if featured_books %}
+        <div id="featuredBooks" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                {% for book in featured_books %}
+                    <button type="button" data-bs-target="#featuredBooks" data-bs-slide-to="{{ forloop.counter0 }}"
+                            {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                            aria-label="{{ book.title }}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+                {% for book in featured_books %}
+                    <div class="carousel-item bg-dark {% if forloop.first %} active {% endif %}">
+                        <a href="{{ book.get_absolute_url }}">
+                            <img src="{{ book.get_cover_image_url }}"
+                                 class="d-block mx-auto"
+                                 style="height: 450px;"
+                                 alt="{{ book.title }}">
+                        </a>
+                        <div class="carousel-caption d-none d-md-block bg-dark">
+                            <h5>
+                                <a href="{{ book.get_absolute_url }}" class="text-decoration-none text-white">{{ book.title }}</a>
+                            </h5>
+                            <p>{{ book.description | truncatechars_html:60 }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#featuredBooks"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#featuredBooks"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    {% else %}
+        <div class="py-5 px-4 border text-center text-dark bg-light rounded shadow-sm">
+            <h1>Welcome to the Book Store!</h1>
+        </div>
+    {% endif %}
 
     <div class="mt-5">
         <h2 class="text-secondary">Latest additions</h2>

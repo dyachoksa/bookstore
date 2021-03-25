@@ -51,6 +51,7 @@ class Book(models.Model):
     year = models.IntegerField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
     cover_image = models.ImageField(max_length=300, upload_to=get_image_path, blank=True, null=True)
+    is_featured = models.BooleanField(default=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
