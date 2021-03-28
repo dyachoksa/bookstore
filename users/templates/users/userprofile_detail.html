@@ -17,6 +17,12 @@
 
             <div class="col-9">
                 <div>
+                    <div class="fw-bold">Full name:</div>
+                    <div class="mt-1">
+                        {{ user_profile.user.get_full_name }}
+                    </div>
+                </div>
+                <div class="mt-4">
                     <div class="fw-bold">Username:</div>
                     <div class="mt-1">
                         {{ user_profile.user.username }}

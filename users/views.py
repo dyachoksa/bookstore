@@ -1,4 +1,6 @@
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, UpdateView, ListView, DetailView
 
@@ -32,6 +34,15 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context['my_reviews'] = user_profile.user.reviews.order_by("-created_at").all()
 
         return context
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = ["first_name", "last_name"]
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):

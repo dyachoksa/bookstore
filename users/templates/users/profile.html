@@ -8,6 +8,7 @@
             <h1>My Profile</h1>
 
             <div>
+                <a href="{% url 'users:user_edit' %}" class="btn btn-outline-info">Edit info</a>
                 <a href="{% url 'users:profile_edit' %}" class="btn btn-outline-info">Edit profile</a>
             </div>
         </div>
@@ -21,6 +22,12 @@
 
             <div class="col-9">
                 <div>
+                    <div class="fw-bold">Full name:</div>
+                    <div class="mt-1">
+                        {{ current_user.get_full_name }}
+                    </div>
+                </div>
+                <div class="mt-4">
                     <div class="fw-bold">Username:</div>
                     <div class="mt-1">
                         {{ current_user.username }}
