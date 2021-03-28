@@ -7,6 +7,10 @@
             <a href="{{ book.get_absolute_url }}" class="text-decoration-none">{{ book.title }}</a>
         </h5>
 
+        <p class="card-text text-secondary">
+            By {{ book.author.name }}
+        </p>
+
         <p class="card-text">
             {{ book.description | truncatechars:60 }}
         </p>

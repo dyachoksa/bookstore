@@ -15,10 +15,11 @@ from .models import Book, Review, Author
 
 
 def index(request):
-    books = Book.objects.all().order_by('-created_at')[:4]
+    books = Book.objects.select_related('author').order_by('-created_at')[:4]
     featured_books = Book.objects.filter(is_featured=True).order_by('-created_at')
     latest_reviews = Review.objects.select_related('user', 'book').order_by('-created_at')[:5]
-    most_popular_books = Book.objects.annotate(rating=Avg('reviews__rating'))\
+    most_popular_books = Book.objects.select_related('author')\
+                             .annotate(rating=Avg('reviews__rating'))\
                              .filter(rating__gte=1)\
                              .order_by('-rating')[:5]
 
@@ -65,7 +66,7 @@ class BookListView(ListView):
     context_object_name = "books"
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().select_related('author')
 
         q = self.request.GET.get('q')
         if q:
