@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.flatpages',
 
     'allauth',
     'allauth.account',
@@ -45,11 +46,13 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_extensions',
     'debug_toolbar',
+    'django_summernote',
 
     'books.apps.BooksConfig',
     'users.apps.UsersConfig',
     'store.apps.StoreConfig',
     'feedback.apps.FeedbackConfig',
+    'pages.apps.PagesConfig',
 ]
 
 MIDDLEWARE = [
@@ -184,6 +187,19 @@ SITE_ID = 1
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 INTERNAL_IPS = ['127.0.0.1']
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'bookstore.helpers.show_toolbar'
+}
+
+SUMMERNOTE_CONFIG = {
+    'summernote': {
+        'width': '100%',
+        'height': '500',
+    }
+}
 
 
 # Logging

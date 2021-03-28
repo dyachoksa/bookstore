@@ -1,0 +1,31 @@
+{% extends "books/base.html" %}
+
+{% block title %}{{ flatpage.title }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{{ flatpage.title }}</h1>
+        </div>
+    </div>
+
+    <div class="mt-4 row">
+        <div class="col-12 col-md-4 col-lg-3">
+            {% load flatpages %}
+            {% get_flatpages as flatpages %}
+            <ul>
+                {% for page in flatpages %}
+                    <li><a href="/pages{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9">
+            <div class="row">
+                <div class="col">
+                    {{ flatpage.content }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 
 from .models import Author, Book, Review
 
@@ -12,8 +13,9 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 @admin.register(Book)
-class BookAdmin(admin.ModelAdmin):
+class BookAdmin(SummernoteModelAdmin):
     search_fields = ['title']
+    summernote_fields = ['description']
 
     readonly_fields = ['created_at']
 
