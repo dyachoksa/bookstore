@@ -3,6 +3,7 @@ import uuid
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -22,7 +23,13 @@ class Author(models.Model):
 
     @property
     def books_count(self):
-        return self.books.count()
+        books_count = cache.get(f"{self.pk}:books-count")
+
+        if books_count is None:
+            books_count = self.books.count()
+            cache.set(f"{self.pk}:books-count", books_count, timeout=3600)
+
+        return books_count
 
     def get_books(self):
         return self.books.order_by('-year').all()
@@ -71,10 +78,16 @@ class Book(models.Model):
 
     @property
     def avg_rating(self):
-        return round(self.reviews.aggregate(avg_rating=models.Avg("rating"))["avg_rating"] or 0, 1)
+        rating = cache.get(f"{self.pk}:book-avg-rating")
+
+        if rating is None:
+            rating = round(self.reviews.aggregate(avg_rating=models.Avg("rating"))["avg_rating"] or 0, 1)
+            cache.set(f"{self.pk}:book-avg-rating", rating, timeout=3600)
+
+        return rating
 
     def get_all_reviews(self):
-        return self.reviews.select_related('user').all()
+        return self.reviews.select_related('user', 'user__profile').all()
 
     def get_absolute_url(self):
         return reverse('books:detail', kwargs={"pk": self.pk})

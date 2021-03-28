@@ -1,23 +1,27 @@
-<div class="card {% if book.is_featured %} bg-light bg-gradient {% endif %}">
-    <img src="{{ book.get_cover_image_url }}" class="card-img-top" alt="{{ book.title }}"
-        style="max-height: 300px; width: 100%; object-fit: contain; object-position: center;" />
+{% load cache %}
 
-    <div class="card-body">
-        <h5 class="card-title">
-            <a href="{{ book.get_absolute_url }}" class="text-decoration-none">{{ book.title }}</a>
-        </h5>
+{% cache 3600 book-short-view book.id %}
+    <div class="card {% if book.is_featured %} bg-light bg-gradient {% endif %}">
+        <img src="{{ book.get_cover_image_url }}" class="card-img-top" alt="{{ book.title }}"
+            style="max-height: 300px; width: 100%; object-fit: contain; object-position: center;" />
 
-        <p class="card-text text-secondary">
-            By {{ book.author.name }}
-        </p>
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="{{ book.get_absolute_url }}" class="text-decoration-none">{{ book.title }}</a>
+            </h5>
 
-        <p class="card-text">
-            {{ book.description | truncatechars_html:60 | safe }}
-        </p>
+            <p class="card-text text-secondary">
+                By {{ book.author.name }}
+            </p>
 
-        <a href="{{ book.get_absolute_url }}" class="card-link">See more</a>
+            <p class="card-text">
+                {{ book.description | truncatechars_html:60 | safe }}
+            </p>
+
+            <a href="{{ book.get_absolute_url }}" class="card-link">See more</a>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Added {{ book.created_at | date }}</small>
+        </div>
     </div>
-    <div class="card-footer">
-        <small class="text-muted">Added {{ book.created_at | date }}</small>
-    </div>
-</div>
+{% endcache %}
