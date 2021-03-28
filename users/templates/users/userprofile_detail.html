@@ -1,0 +1,56 @@
+{% extends "books/base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+    <div>
+        <div class="d-flex justify-content-between">
+            <h1>{{ user_profile.get_name }}</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <picture>
+                    <img class="img-thumbnail" src="{{ user_profile.avatar.url }}" alt="{{ user_profile.get_name }}"/>
+                </picture>
+            </div>
+
+            <div class="col-9">
+                <div>
+                    <div class="fw-bold">Username:</div>
+                    <div class="mt-1">
+                        {{ user_profile.user.username }}
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="fw-bold">A couple of words about me:</div>
+                    <div class="mt-1">
+                        {{ user_profile.bio | default:"-" | linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 d-flex justify-content-between">
+            <h3 class="text-secondary">Favorite Books</h3>
+            <div></div>
+        </div>
+
+        <div class="mt-2 row row-cols-1 row-cols-md-2 row-cols-lg-3">
+            {% for favorite_book in user_profile.favorite_books %}
+                <div class="col">
+                    <a href="{{ favorite_book.get_absolute_url }}" class="fw-bold text-decoration-none">
+                        {{ favorite_book.book_title }}
+                    </a>
+                    <p class="text-secondary">{{ favorite_book.author_name }}</p>
+                </div>
+            {% empty %}
+                <div class="col">
+                    <p class="text-secondary">
+                        No favorite books so far.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

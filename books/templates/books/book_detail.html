@@ -90,9 +90,11 @@
                 <div class="row mb-2">
                     <div class="col-12 col-md-3 col-lg-2">
                         <div class="py-4 px-4">
-                            <img class="img-fluid img-thumbnail"
-                                 src="{{ review.user.profile.avatar.url }}"
-                                 alt="{{ review.user.username }}"/>
+                            <a href="{{ review.get_user_public_profile_url }}">
+                                <img class="img-fluid img-thumbnail"
+                                     src="{{ review.user.profile.avatar.url }}"
+                                     alt="{{ review.user.username }}"/>
+                            </a>
                         </div>
                     </div>
                     <div class="col-12 col-md-9 col-lg-10 pt-4">
@@ -100,7 +102,8 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <p class="mb-0">
-                                        <strong>{{ review.user.get_full_name | default:review.user.username }}</strong>
+                                        <a href="{{ review.get_user_public_profile_url }}">
+                                            <strong>{{ review.user.get_full_name | default:review.user.username }}</strong></a>
                                         on
                                         {{ review.created_at|date:"D d M Y" }} {{ review.created_at|time:"H:i" }}
                                     </p>

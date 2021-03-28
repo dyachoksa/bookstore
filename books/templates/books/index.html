@@ -71,12 +71,13 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h5>
-                            <a href="{{ review.book.get_absolute_url }}" class="text-dark">
-                                {{ review.book.title }}
+                            <a href="{{ review.get_absolute_url }}" class="text-dark">
+                                {{ review.book_title }}
                             </a>
                         </h5>
                         <p class="mb-0">
-                            <strong>{{ review.user.get_full_name | default:review.user.username }}</strong>
+                            <a href="{{ review.get_user_public_profile_url }}">
+                            <strong>{{ review.user.get_full_name | default:review.user.username }}</strong></a>
                             on
                             {{ review.created_at|date:"D d M Y" }} {{ review.created_at|time:"H:i" }}
                         </p>

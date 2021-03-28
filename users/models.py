@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -29,9 +30,33 @@ class UserProfile(models.Model):
     def __repr__(self):
         return f"<UserProfile user_id={self.user_id}>"
 
+    @property
+    def favorite_books(self):
+        return self.user.favorite_books\
+            .order_by('book__title')\
+            .select_related("book")\
+            .all()
+
+    def get_absolute_url(self):
+        return reverse('users:public', kwargs={"pk": self.pk})
+
+    def get_name(self):
+        return self.user.get_full_name() or self.user.username
+
 
 class FavoriteBook(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorite_books")
     book = models.ForeignKey("books.Book", on_delete=models.CASCADE, related_name="liked_by")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def book_title(self):
+        return self.book.title
+
+    @property
+    def author_name(self):
+        return self.book.author.name
+
+    def get_absolute_url(self):
+        return self.book.get_absolute_url()

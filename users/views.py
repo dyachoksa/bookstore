@@ -1,11 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, UpdateView, ListView
+from django.views.generic import TemplateView, UpdateView, ListView, DetailView
 
 from store.models import ShoppingCart, CartStatus
 
 from .forms import UserProfileForm
 from .models import UserProfile
+
+
+class PublicProfileView(DetailView):
+    model = UserProfile
+    context_object_name = 'user_profile'
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):

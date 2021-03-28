@@ -74,7 +74,7 @@ class Book(models.Model):
         return round(self.reviews.aggregate(avg_rating=models.Avg("rating"))["avg_rating"] or 0, 1)
 
     def get_all_reviews(self):
-        return self.reviews.all()
+        return self.reviews.select_related('user').all()
 
     def get_absolute_url(self):
         return reverse('books:detail', kwargs={"pk": self.pk})
@@ -105,3 +105,10 @@ class Review(models.Model):
 
     def __repr__(self):
         return f"<Review id={self.pk} book_id={self.book_id} user_id={self.user_id} created_at={self.created_at}>"
+
+    @property
+    def book_title(self):
+        return self.book.title
+
+    def get_user_public_profile_url(self):
+        return self.user.profile.get_absolute_url()
