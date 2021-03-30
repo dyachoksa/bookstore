@@ -1,5 +1,6 @@
 Django
 Pillow
+gunicorn
 psycopg2-binary
 boto3
 python-environ
