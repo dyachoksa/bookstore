@@ -1,2 +1,2 @@
-web: gunicorn bookstore.wsgi -log-file -
+web: gunicorn bookstore.wsgi
 release: python manage.py migrate --noinput
