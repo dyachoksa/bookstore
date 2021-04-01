@@ -5,9 +5,11 @@ psycopg2-binary
 boto3
 python-environ
 whitenoise[brotli]
+Celery[sqs,msgpack]
 django-allauth
 django-crispy-forms
 django-extensions
 django-debug-toolbar
 django-summernote
 django-storages
+django-celery-results

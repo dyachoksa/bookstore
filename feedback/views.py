@@ -1,8 +1,8 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.mail import mail_managers
-from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+
+from feedback.tasks import send_contact_us_email
 
 from .models import ContactData
 
@@ -25,14 +25,4 @@ class ContactUsView(SuccessMessageMixin, CreateView):
         return response
 
     def send_mail(self, form):
-        context = {**form.cleaned_data}
-
-        message_txt = render_to_string('feedback/email/contact-us.txt', context=context)
-        message_html = render_to_string('feedback/email/contact-us.html', context=context)
-
-        mail_managers(
-            form.cleaned_data['subject'],
-            message_txt,
-            fail_silently=False,
-            html_message=message_html
-        )
+        send_contact_us_email.delay(form.cleaned_data)

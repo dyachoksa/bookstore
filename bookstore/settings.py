@@ -18,7 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    USE_S3=(bool, False)
 )
 # reading .env file
 environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'debug_toolbar',
     'django_summernote',
+    'django_celery_results',
 
     'books.apps.BooksConfig',
     'users.apps.UsersConfig',
@@ -170,7 +172,8 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'public' / 'media'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+if env('USE_S3'):
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 
@@ -230,6 +233,33 @@ SUMMERNOTE_CONFIG = {
         'height': '500',
     }
 }
+
+
+# Celery
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_BROKER_URL = 'sqs://'
+
+CELERY_BROKER_TRANSPORT = 'sqs'
+
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'region': 'eu-central-1',
+    'predefined_queues': {
+        'celery': {
+            'url': 'https://sqs.eu-central-1.amazonaws.com/543846193001/Bookstore'
+        }
+    }
+}
+
+CELERY_ENABLE_UTC = True
+
+CELERY_ACCEPT_CONTENT = ['json']
+
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_RESULT_SERIALIZER = 'json'
+
 
 # Logging
 LOGGING = {
