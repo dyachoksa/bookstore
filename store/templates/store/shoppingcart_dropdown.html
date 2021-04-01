@@ -1,29 +1,29 @@
 <ol class="list-group list-group-numbered list-group-flush">
     {% for item in items %}
         <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto d-flex">
+            <div class="mr-auto d-flex">
                 <div>
                     <img src="{{ item.get_cover_image_url }}" alt="{{ item.title }}"
                          style="height: 90px; width: 60px; object-fit: cover; object-position: center;" />
                 </div>
-                <div class="ms-2">
+                <div class="ml-2">
                     <div>
                         <a href="{{ item.get_absolute_url }}" class="text-decoration-none">{{ item.title }}</a>
                     </div>
                     {{ item.author.name }}
                 </div>
             </div>
-            <span class="fw-bold">{{  item.store_item.price }}</span>
+            <span class="ml-2 font-weight-bold">{{  item.store_item.price }}</span>
         </li>
     {% endfor %}
 
     <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-            <div class="fw-bold">Total</div>
+        <div class="ml-2 me-auto">
+            <div class="font-weight-bold">Total</div>
             Sub-total
         </div>
         <div>
-            <div class="fw-bold">{{ shopping_cart.total }}</div>
+            <div class="font-weight-bold">{{ shopping_cart.total }}</div>
             {{ shopping_cart.sub_total }}
         </div>
     </li>

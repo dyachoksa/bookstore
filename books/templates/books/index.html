@@ -4,7 +4,7 @@
 
 {% block content %}
     {% if featured_books %}
-        <div id="featuredBooks" class="carousel slide" data-bs-ride="carousel">
+        <div id="featuredBooks" class="carousel slide" data-ride="carousel">
             <div class="carousel-indicators">
                 {% for book in featured_books %}
                     <button type="button" data-bs-target="#featuredBooks" data-bs-slide-to="{{ forloop.counter0 }}"
@@ -31,16 +31,14 @@
                     </div>
                 {% endfor %}
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#featuredBooks"
-                    data-bs-slide="prev">
+            <a class="carousel-control-prev" href="#featuredBooks" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#featuredBooks"
-                    data-bs-slide="next">
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#featuredBooks" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     {% else %}
         <div class="py-5 px-4 border text-center text-dark bg-light rounded shadow-sm">
@@ -61,15 +59,15 @@
     </div>
 
     <div class="row mt-5">
-        <div class="col-12 col-md-7 col-lg-8 pe-4">
+        <div class="col-12 col-md-7 col-lg-8 pr-4">
             <h2 class="text-secondary">Latest reviews</h2>
 
             {% for review in latest_reviews %}
                 <div class="d-flex mb-3">
                     <div class="flex-shrink-0">
-                        <div class="fs-2 fw-bolder">{{ forloop.counter }}.</div>
+                        <div class="h2 font-weight-bolder">{{ forloop.counter }}.</div>
                     </div>
-                    <div class="flex-grow-1 ms-3">
+                    <div class="flex-grow-1 ml-3">
                         <h5>
                             <a href="{{ review.get_absolute_url }}" class="text-dark">
                                 {{ review.book_title }}
@@ -96,9 +94,9 @@
             {% for book in most_popular_books %}
                 <div class="d-flex mb-3">
                     <div class="flex-shrink-0">
-                        <div class="fs-3 fw-bolder">{{ forloop.counter }}.</div>
+                        <div class="h3 font-weight-bolder">{{ forloop.counter }}.</div>
                     </div>
-                    <div class="flex-grow-1 ms-3">
+                    <div class="flex-grow-1 ml-3">
                         <h5>
                             <a href="{{ book.get_absolute_url }}" class="text-dark">
                                 {{ book.title }}
@@ -109,7 +107,7 @@
                         </p>
                     </div>
 
-                    <div class="ms-3 text-nowrap fs-4 fw-bold text-info">
+                    <div class="ml-3 text-nowrap h4 font-weight-bold text-info">
                         {{ book.rating|default_if_none:1 }}
                     </div>
                 </div>

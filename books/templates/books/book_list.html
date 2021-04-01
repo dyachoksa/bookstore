@@ -23,15 +23,14 @@
                     <h4>Filter:</h4>
                 </div>
                 <div class="col-auto">
-                    <label class="visually-hidden" for="autoSizingSelect">Year</label>
-                    <select name="by_year" class="form-select" id="autoSizingSelect">
+                    <label class="sr-only" for="autoSizingSelect">Year</label>
+                    <select name="by_year" class="custom-select" id="autoSizingSelect">
                         <option selected>By year</option>
                         {% for year in years %}
                             <option value="{{ year }}" {% if year == filter_by_year %} selected {% endif %}>{{ year }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-auto"></div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary">Filter</button>
                     {% if filter_by_year %}
@@ -48,7 +47,7 @@
         </div>
 
         <div class="col-12 col-md-8 col-lg-9">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
                 {% for book in books %}
                     <div class="col">
                         {% include 'books/_book.html' %}

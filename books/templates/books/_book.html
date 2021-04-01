@@ -1,7 +1,7 @@
 {% load cache %}
 
 {% cache 3600 book-short-view book.id %}
-    <div class="card {% if book.is_featured %} bg-light bg-gradient {% endif %}">
+    <div class="pb-2 card {% if book.is_featured %} bg-light bg-gradient {% endif %}">
         <img src="{{ book.get_cover_image_url }}" class="card-img-top" alt="{{ book.title }}"
             style="max-height: 300px; width: 100%; object-fit: contain; object-position: center;" />
 
