@@ -1,5 +1,6 @@
 from django.urls import path
 
+from .feeds import BooksFeed
 from .views import (
     index, bookmark, remove_review,
 
@@ -14,6 +15,7 @@ app_name = 'books'
 
 urlpatterns = [
     path('books/', BookListView.as_view(), name='list'),
+    path('books/latest/feed/', BooksFeed(), name='rss-feed'),
     path('books/<int:pk>/', BookDetailView.as_view(), name='detail'),
     path('books/<int:pk>/bookmark/', bookmark, name='bookmark'),
     path('books/<int:pk>/reviews/', ReviewCreateView.as_view(), name='review-create'),
